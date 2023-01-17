@@ -1,0 +1,24 @@
+.node {
+    width: 20px;
+    height: 20px;
+    border: 1px solid black;
+    /*
+    The box-sizing: border-box; is to make sure that the border is included
+    in the width and height of the element, so the element will be square.
+    */
+    box-sizing: border-box;
+}
+
+.grid {
+    width: 70%;
+    /* grid will be centered horizontally */
+    margin: auto;
+    padding-top: 10%;
+}
+
+/*
+display: flex will make the nodes align horizontally in the same row.
+*/
+.row {
+    display: flex;
+}

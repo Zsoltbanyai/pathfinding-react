@@ -1,11 +1,10 @@
 import './App.css';
-// eslint-disable-next-line no-unused-vars
-import pathfinding from './pathfinding/pathfinding';
+import {Pathfinding} from './pathfinding/Pathfinding';
 
 function App() {
   return (
     <div className="App">
-      <pathfinding />
+      <Pathfinding />
     </div>
   );
 }
