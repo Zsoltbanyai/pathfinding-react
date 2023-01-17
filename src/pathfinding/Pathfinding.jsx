@@ -14,7 +14,7 @@ export const Pathfinding = () => {
         return grid
     }
 
-    const grid = createGrid(20, 50)
+    const grid = createGrid(20, 40)
     const gridElement =
         <div className="grid">
             {grid.map((row, rowIdx) => {
@@ -27,6 +27,7 @@ export const Pathfinding = () => {
                 )
             })}
         </div>
+
 
     return (
         <div>
