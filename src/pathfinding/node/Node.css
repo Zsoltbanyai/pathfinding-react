@@ -1,26 +1,26 @@
 .node {
-    width: 25px;
-    height: 25px;
+    width: 28px;
+    height: 28px;
     border: 1px solid black;
-    margin: 0.03rem;
-    /*
-    The box-sizing: border-box; is to make sure that the border is included
-    in the width and height of the element, so the element will be square.
-    */
     box-sizing: border-box;
 }
 
-/*
-display: flex will make the nodes align horizontally in the same row.
-*/
-.row {
-    display: flex;
+.node.start-node {
+    background-color: aqua;
+    animation: pulse 400ms ease-in-out forwards;
 }
 
-.grid {
-    width: calc(80% - (20 * 0.03rem));
-    margin: auto;
-    padding-top: 10%;
+.node.end-node {
+    background-color: coral;
+    animation: pulse 400ms ease-in-out forwards;
 }
 
+@keyframes pulse {
+    0% {
+        transform: scale(0.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
 

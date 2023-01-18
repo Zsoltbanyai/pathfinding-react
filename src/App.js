@@ -1,12 +1,12 @@
-import './App.css';
-import {Pathfinding} from './pathfinding/Pathfinding';
+import './App.css'
+import {Grid} from './pathfinding/grid/Grid'
 
 function App() {
   return (
     <div className="App">
-      <Pathfinding />
+      <Grid />
     </div>
-  );
+  )
 }
 
 export default App;
