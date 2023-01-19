@@ -1,21 +1,17 @@
 import './Node.css'
-import { useEffect } from "react"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faFlag, faLocationCrosshairs} from '@fortawesome/free-solid-svg-icons'
 
-export const Node = ({ nodeId, isStart, isEnd, activeNodeType, wallNodes,
+export const Node = ({ nodeId, isStart, isEnd, wallNodes,
                          onClick, onMouseEnter }) => {
 
-    useEffect(() => {
-    }, [activeNodeType, nodeId]);
-
-    let className = `node ${nodeId}`;
+    let className = `node ${nodeId}`
     if (isStart) {
-        className += " start-node";
+        className += " start-node"
     } else if (isEnd) {
-        className += " end-node";
+        className += " end-node"
     } else if (wallNodes.includes(nodeId)) {
-        className += " wall";
+        className += " wall"
     }
 
     return (
@@ -27,6 +23,6 @@ export const Node = ({ nodeId, isStart, isEnd, activeNodeType, wallNodes,
             {isStart && <FontAwesomeIcon icon={faLocationCrosshairs} className="start-icon"/>}
             {isEnd && <FontAwesomeIcon icon={faFlag} className="end-icon"/>}
         </div>
-    );
+    )
 
 }
