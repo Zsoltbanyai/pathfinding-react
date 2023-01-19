@@ -1,18 +1,15 @@
-import './Node.css'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faFlag, faLocationCrosshairs} from '@fortawesome/free-solid-svg-icons'
+import './Node.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {faFlag, faLocationCrosshairs} from '@fortawesome/free-solid-svg-icons';
 
-export const Node = ({ nodeId, isStart, isEnd, wallNodes,
-                         onClick, onMouseEnter }) => {
+export const Node = ({ nodeId, isStart, isEnd, isVisited, isPath, isWall, onClick, onMouseEnter }) => {
 
-    let className = `node ${nodeId}`
-    if (isStart) {
-        className += " start-node"
-    } else if (isEnd) {
-        className += " end-node"
-    } else if (wallNodes.includes(nodeId)) {
-        className += " wall"
-    }
+    let className = `node node${nodeId}`;
+    if (isStart) className += " start-node";
+    if (isEnd) className += " end-node";
+    if (isPath) className += " path";
+    if (isWall) className += " wall";
+    if (isVisited) className += " visited";
 
     return (
         <div
@@ -23,6 +20,6 @@ export const Node = ({ nodeId, isStart, isEnd, wallNodes,
             {isStart && <FontAwesomeIcon icon={faLocationCrosshairs} className="start-icon"/>}
             {isEnd && <FontAwesomeIcon icon={faFlag} className="end-icon"/>}
         </div>
-    )
+    );
 
 }

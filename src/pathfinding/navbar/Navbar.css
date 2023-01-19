@@ -1,0 +1,17 @@
+.navbar {
+    background-color: #282c34;
+    position: sticky;
+    top: 0;
+    height: max-content;
+}
+
+.icon {
+    font-size: 50px;
+    color: aliceblue;
+    padding: 15px;
+}
+
+.button.play-button {
+    background: transparent;
+    border: none;
+}

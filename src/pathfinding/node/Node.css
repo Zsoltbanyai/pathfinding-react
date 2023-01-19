@@ -21,6 +21,16 @@
     animation: grow 0.4s ease-in-out forwards;
 }
 
+.node.visited {
+    background-color: crimson;
+    animation: grow 0.4s ease-in-out forwards;
+}
+
+.node.path {
+    background-color: gold;
+    animation: grow 0.4s ease-in-out forwards;
+}
+
 @keyframes grow {
     from {
         transform: scale(0.3);
@@ -29,5 +39,3 @@
         transform: scale(1);
     }
 }
-
-
