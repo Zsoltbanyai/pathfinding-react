@@ -11,23 +11,66 @@ export const Grid = () => {
     const [endNode, setEndNode] = useState('10-15');
     const [activeNodeType, setActiveNodeType] = useState(null);
     const [clickEvent, setClickEvent] = useState(false);
+    const [isDrawingWall, setIsDrawingWall] = useState(false);
+    const [wallNodes, setWallNodes] = useState([]);
+    const [isErasingWalls, setIsErasingWalls] = useState(false);
 
-    const handleNodeClick = (nodeId) => {
-        if (nodeId === startNode) {
-            setActiveNodeType("startNode");
-        } else if (nodeId === endNode) {
-            setActiveNodeType("endNode");
-        }
-        setClickEvent(!clickEvent);
+    const isStartNode = (nodeId) => {
+        return nodeId === startNode;
     }
+    const isEndNode = (nodeId) => {
+        return nodeId === endNode;
+    }
+    const drawWall = (nodeId) => {
+        if (isDrawingWall && !isStartNode(nodeId) && !isEndNode(nodeId)) {
+            if (isErasingWalls) {
+                // remove wall
+                setWallNodes(wallNodes.filter(id => id !== nodeId))
+            } else {
+                // add wall
+                setWallNodes([...wallNodes, nodeId])
+            }
+        }
+    };
 
     const handleMouseEnter = (nodeId) => {
         if (clickEvent) {
             if (activeNodeType === "startNode") {
-                setStartNode(nodeId);
+                setStartNode(nodeId)
             } else if (activeNodeType === "endNode") {
-                setEndNode(nodeId);
+                setEndNode(nodeId)
             }
+        }
+    }
+
+    const onMouseEnter = (nodeId) => {
+        handleMouseEnter(nodeId)
+        drawWall(nodeId)
+    }
+
+    const handleMouseDown = (e) => {
+        // for the default 'dragging' functionality to turn off in the browser
+        e.preventDefault()
+        setIsDrawingWall(true)
+    }
+
+    const handleMouseUp = () => {
+        setIsDrawingWall(false)
+        setIsErasingWalls(false)
+    }
+
+    const handleLeftClick = (e) => {
+        e.preventDefault()
+        setIsErasingWalls(true)
+    }
+
+    const handleNodeClick = (nodeId) => {
+        if (nodeId === startNode) {
+            setClickEvent(!clickEvent);
+            setActiveNodeType("startNode");
+        } else if (nodeId === endNode) {
+            setClickEvent(!clickEvent);
+            setActiveNodeType("endNode");
         }
     }
 
@@ -43,10 +86,20 @@ export const Grid = () => {
     }
 
     return (
-        <div className="grid" style={{
-            gridTemplateRows: `repeat(${NUM_OF_ROWS}, minmax(2vw, 1fr))`,
-            gridTemplateColumns: `repeat(${NUM_OF_COLS}, minmax(2vw, 1fr))`,
-            width: `${GRID_WIDTH}%`
+        <div className="grid"
+             onMouseDown={(e) => {
+                 handleMouseDown(e)
+             }}
+             onMouseUp={handleMouseUp}
+             onMouseEnter={drawWall}
+             onContextMenu={(e) => {
+                 handleLeftClick(e)
+             }}
+             style={{
+                 // for dynamic styling for the grid
+                 gridTemplateRows: `repeat(${NUM_OF_ROWS}, minmax(2vw, 1fr))`,
+                 gridTemplateColumns: `repeat(${NUM_OF_COLS}, minmax(2vw, 1fr))`,
+                 width: `${GRID_WIDTH}%`
         }}>
             {grid.map((node) => (
                 <Node
@@ -55,8 +108,9 @@ export const Grid = () => {
                     isStart={node.id === startNode}
                     isEnd={node.id === endNode}
                     activeNodeType={activeNodeType}
+                    wallNodes={wallNodes}
                     onClick={() => handleNodeClick(node.id)}
-                    onMouseEnter={() => handleMouseEnter(node.id)}
+                    onMouseEnter={() => onMouseEnter(node.id)}
                 >
                 </Node>
             ))}

@@ -3,7 +3,8 @@ import { useEffect } from "react"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faFlag, faLocationCrosshairs} from '@fortawesome/free-solid-svg-icons'
 
-export const Node = ({ nodeId, isStart, isEnd, activeNodeType, onClick, onMouseEnter }) => {
+export const Node = ({ nodeId, isStart, isEnd, activeNodeType, wallNodes,
+                         onClick, onMouseEnter }) => {
 
     useEffect(() => {
     }, [activeNodeType, nodeId]);
@@ -13,6 +14,8 @@ export const Node = ({ nodeId, isStart, isEnd, activeNodeType, onClick, onMouseE
         className += " start-node";
     } else if (isEnd) {
         className += " end-node";
+    } else if (wallNodes.includes(nodeId)) {
+        className += " wall";
     }
 
     return (
