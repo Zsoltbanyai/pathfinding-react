@@ -16,8 +16,8 @@ export const Grid = (numOfRows, numOfCols, isRunning) => {
 
     const [path, setPath] = useState([]);
     const [visitedNodes, setVisitedNodes] = useState([]);
-    const [isAnimationDone, setIsAnimationDone] = useState(false);
 
+    const [isAnimationDone, setIsAnimationDone] = useState(false);
     const [isAnimating, setIsAnimating] = useState(false);
 
     function animate(path, visitedNodes) {
