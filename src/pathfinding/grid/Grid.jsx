@@ -5,6 +5,8 @@ import {useState} from "react";
 export const Grid = () => {
     const NUM_OF_ROWS = 20
     const NUM_OF_COLS = 40
+    const GRID_WIDTH = NUM_OF_COLS * 2
+
     const [startNode, setStartNode] = useState('1-1');
     const [endNode, setEndNode] = useState('10-15');
     const [activeNodeType, setActiveNodeType] = useState(null);
@@ -41,7 +43,11 @@ export const Grid = () => {
     }
 
     return (
-        <div className="grid">
+        <div className="grid" style={{
+            gridTemplateRows: `repeat(${NUM_OF_ROWS}, minmax(2vw, 1fr))`,
+            gridTemplateColumns: `repeat(${NUM_OF_COLS}, minmax(2vw, 1fr))`,
+            width: `${GRID_WIDTH}%`
+        }}>
             {grid.map((node) => (
                 <Node
                     key={node.id}

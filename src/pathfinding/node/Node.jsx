@@ -1,5 +1,7 @@
 import './Node.css'
 import { useEffect } from "react"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {faFlag, faLocationCrosshairs} from '@fortawesome/free-solid-svg-icons'
 
 export const Node = ({ nodeId, isStart, isEnd, activeNodeType, onClick, onMouseEnter }) => {
 
@@ -19,6 +21,8 @@ export const Node = ({ nodeId, isStart, isEnd, activeNodeType, onClick, onMouseE
             onClick={onClick}
             onMouseEnter={onMouseEnter}
         >
+            {isStart && <FontAwesomeIcon icon={faLocationCrosshairs} className="start-icon"/>}
+            {isEnd && <FontAwesomeIcon icon={faFlag} className="end-icon"/>}
         </div>
     );
 
