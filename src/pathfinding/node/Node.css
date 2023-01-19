@@ -8,12 +8,17 @@
 
 .node .start-icon {
     font-size: 20px;
-    animation: grow 0.5s ease-in-out forwards;
+    animation: grow 0.4s ease-in-out forwards;
 }
 
 .node .end-icon {
     font-size: 20px;
-    animation: grow 0.5s ease-in-out forwards;
+    animation: grow 0.4s ease-in-out forwards;
+}
+
+.node.wall {
+    background-color: black;
+    animation: grow 0.4s ease-in-out forwards;
 }
 
 @keyframes grow {
@@ -25,7 +30,4 @@
     }
 }
 
-.node.wall {
-    background-color: black;
-}
 
