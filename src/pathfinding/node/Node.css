@@ -22,8 +22,8 @@
 }
 
 .node.visited {
-    background-color: crimson;
-    animation: grow 0.4s ease-in-out forwards;
+    animation: grow 0.4s ease-in-out forwards,
+               color-transition-visited 0.8s ease-in-out forwards;
 }
 
 .node.path {
@@ -39,3 +39,13 @@
         transform: scale(1);
     }
 }
+
+@keyframes color-transition-visited {
+    from {
+        background-color: #251f1f;
+    }
+    to {
+        background-color: crimson;
+    }
+}
+
