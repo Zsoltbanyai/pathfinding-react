@@ -1,31 +1,20 @@
 # BFS Visualization
-This project is a visualization of the **Breadth-First Search** algorithm. 
-The user can create a grid of arbitrary size, reposition the start and end nodes, 
-and draw walls to create obstacles for the algorithm to navigate around. 
-The algorithm will then find the shortest path between the start and end nodes,
-with each node visited and each step of the path being animated in real-time.
+
+This project is a visualization of the Breadth-First Search algorithm. The user can create a grid of arbitrary size, reposition the start and end nodes, and draw walls to create obstacles for the algorithm to navigate around. The algorithm will then find the shortest path between the start and end nodes, with each node visited and each step of the path being animated in real-time.
 
 ## Getting Started
-To run this project, clone the repository and run **npm install** to install the necessary dependencies.
-Then run **npm start** to start the development server. 
-The project will be available at http://localhost:3000/.
 
-Click on either the start or end node and move your cursor to reposition.
-Click again to place the node.
+To run this project, clone the repository and run `npm install` to install the necessary dependencies. Then run `npm start` to start the development server. The project will be available at `http://localhost:3000/`.
 
-Press and hold left mouse button to **draw** a wall, press right mouse button
-to **erase**.
+* Click on either the start or end node and move your cursor to reposition. Click again to place the node.
+* Press and hold left mouse button to draw a wall, press right mouse button to erase.
+* Press Play to see the animation, then feel free to change the nodes on the grid to see an instant re-render.
+* Press Stop to clear the grid of visited and path nodes.
 
-**Press Play** to see the animation, then feel free to change the nodes on the 
-grid to see an instant re-render.
+Note:
+- The animation only plays when you press Play, not when you change the grid.
+- The user can adjust the size of the grid by changing the numOfRows and numOfCols props passed to the Grid component, in App.js.
 
-
-**Press Stop** to clear the grid of *visited* and *path* nodes.
-
-The animation only plays when you press Play, not when you change the grid.
-
-The user can adjust the size of the grid by changing the **numOfRows** and **numOfCols** props
-passed to the Grid component, in **App.js**.
 
 *This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).*
 
