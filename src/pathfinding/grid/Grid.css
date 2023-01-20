@@ -2,6 +2,6 @@
 .grid {
     display: grid;
     margin: auto;
-    padding: 10%;
+    padding: 12vb;
     grid-gap: 0;
 }

@@ -1,14 +1,15 @@
 .navbar {
     background-color: #282c34;
     position: sticky;
+    z-index: 1;
     top: 0;
     height: max-content;
 }
 
 .icon {
-    font-size: 50px;
+    font-size: 8vb;
     color: aliceblue;
-    padding: 15px;
+    padding: 2vb;
 }
 
 .button.play-button {
