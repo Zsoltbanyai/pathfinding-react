@@ -14,11 +14,16 @@ function App() {
 
     return (
         <div className="App">
-            {Navbar(
-                isRunning ? <FontAwesomeIcon icon={faPause} className="icon"/>
-                               : <FontAwesomeIcon icon={faPlay} className="icon"/>,
-                     startStop)}
-            {Grid(20, 40, isRunning)}
+            <Navbar
+                icon={isRunning ? <FontAwesomeIcon icon={faPause} className="icon"/>
+                                : <FontAwesomeIcon icon={faPlay} className="icon"/>}
+                startStop={startStop}
+            />
+            <Grid
+                numOfRows={20}
+                numOfCols={40}
+                isRunning={isRunning}
+            />
         </div>
     );
 }

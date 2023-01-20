@@ -3,9 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faFlag, faLocationCrosshairs} from '@fortawesome/free-solid-svg-icons';
 import React from "react";
 
-export const Node = React.memo(({ nodeId, onClick, onMouseEnter,
-                                            isStart, isEnd, isVisited, isPath, isWall }) => {
-
+export const Node = ({ nodeId, onClick, onMouseEnter, isStart, isEnd, isVisited, isPath, isWall }) => {
     let className = `node node${nodeId}`;
     if (isStart) className += " start-node";
     if (isEnd) className += " end-node";
@@ -24,12 +22,4 @@ export const Node = React.memo(({ nodeId, onClick, onMouseEnter,
         </div>
     );
 
-}, (prevProps, nextProps) => {
-    return (nextProps.isStart === prevProps.isStart &&
-        nextProps.isEnd === prevProps.isEnd &&
-        nextProps.isWall === prevProps.isWall &&
-        nextProps.isVisited === prevProps.isVisited &&
-        nextProps.isPath === prevProps.isPath &&
-        nextProps.onClick === prevProps.onClick &&
-        nextProps.onMouseEnter === prevProps.onMouseEnter);
-});
+}

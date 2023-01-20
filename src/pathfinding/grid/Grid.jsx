@@ -1,9 +1,9 @@
 import './Grid.css';
 import {Node} from '../node/Node';
 import {BFS} from "../algorithm/Bfs";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 
-export const Grid = (numOfRows, numOfCols, isRunning) => {
+export const Grid = ({ numOfRows, numOfCols, isRunning }) => {
     const GRID_WIDTH = numOfCols * 2;
     const START_ROW = Math.floor(numOfRows/5);
     const START_COL = Math.floor(numOfCols/6);

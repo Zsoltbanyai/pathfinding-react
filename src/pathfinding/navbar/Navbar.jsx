@@ -1,6 +1,6 @@
 import './Navbar.css';
 
-export const Navbar = (icon, startStop) => {
+export const Navbar = ({ icon, startStop }) => {
     return (
         <div className="navbar">
             <button
