@@ -5,9 +5,13 @@ import {useEffect, useState} from "react";
 
 export const Grid = (numOfRows, numOfCols, isRunning) => {
     const GRID_WIDTH = numOfCols * 2;
+    const START_ROW = Math.floor(numOfRows/5);
+    const START_COL = Math.floor(numOfCols/6);
+    const END_ROW = Math.floor(numOfRows/4*2);
+    const END_COL = Math.floor(numOfCols/5*3);
 
-    const [startNode, setStartNode] = useState('5_5');
-    const [endNode, setEndNode] = useState('10_25');
+    const [startNode, setStartNode] = useState(`${START_ROW}_${START_COL}`);
+    const [endNode, setEndNode] = useState(`${END_ROW}_${END_COL}`);
     const [activeNodeType, setActiveNodeType] = useState(null);
     const [clickEvent, setClickEvent] = useState(false);
     const [isDrawingWall, setIsDrawingWall] = useState(false);
