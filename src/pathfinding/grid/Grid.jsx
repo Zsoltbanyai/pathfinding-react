@@ -95,23 +95,6 @@ export const Grid = (numOfRows, numOfCols, isRunning) => {
         drawWall(nodeId);
     }
 
-    const handleMouseDown = (e) => {
-        // for the default 'dragging' functionality to turn off in the browser
-        e.preventDefault();
-        setIsDrawingWall(true);
-    }
-
-    const handleMouseUp = () => {
-        // 'onMouseUp' is triggered on both the left and right mouse buttons
-        setIsDrawingWall(false);
-        setIsErasingWalls(false);
-    }
-
-    const handleLeftClick = (e) => {
-        e.preventDefault();
-        setIsErasingWalls(true);
-    }
-
     const handleNodeClick = (nodeId) => {
         if (nodeId === startNode) {
             setClickEvent(!clickEvent);
@@ -120,6 +103,23 @@ export const Grid = (numOfRows, numOfCols, isRunning) => {
             setClickEvent(!clickEvent);
             setActiveNodeType("endNode");
         }
+    }
+
+    const handleMouseDown = (e) => {
+        // for the default 'dragging' functionality to turn off in the browser
+        e.preventDefault();
+        setIsDrawingWall(true);
+    }
+
+    const handleLeftClick = (e) => {
+        e.preventDefault();
+        setIsErasingWalls(true);
+    }
+
+    const handleMouseUp = () => {
+        // 'onMouseUp' is triggered on both the left and right mouse buttons
+        setIsDrawingWall(false);
+        setIsErasingWalls(false);
     }
 
     const grid = []
