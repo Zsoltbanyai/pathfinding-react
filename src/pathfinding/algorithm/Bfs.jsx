@@ -43,7 +43,7 @@ export function BFS(startNode, endNode, wallNodes, numOfCols, numOfRows) {
 }
 // When parentNodes is set, you take a node and add every unvisited neighbor as key, with the node as value.
 // So in retracePath, in the first iteration when you do 'parentNodes.get(currentNode)',
-// think of the endNode as the parent of the previous step, and so on.
+// think of the endNode as the neighbor of the previous step, and so on.
 function retracePath(startNode, endNode, parentNodes) {
     let path = [endNode];
     let currentNode = endNode;

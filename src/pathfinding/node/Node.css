@@ -7,33 +7,33 @@
 }
 
 .node .start-icon {
-    font-size: 20px;
-    animation: grow 0.4s ease-in-out forwards;
+    font-size: 3vb;
+    animation: grow 0.3s ease-in-out forwards;
 }
 
 .node .end-icon {
-    font-size: 20px;
-    animation: grow 0.4s ease-in-out forwards;
+    font-size: 3vb;
+    animation: grow 0.3s ease-in-out forwards;
 }
 
 .node.wall {
     background-color: black;
-    animation: grow 0.4s ease-in-out forwards;
+    animation: grow 0.3s ease-in-out forwards;
 }
 
 .node.visited {
-    animation: grow 0.4s ease-in-out forwards,
+    animation: grow 0.3s ease-in-out forwards,
                color-transition-visited 0.8s ease-in-out forwards;
 }
 
 .node.path {
     background-color: gold;
-    animation: grow 0.4s ease-in-out forwards;
+    animation: grow 0.3s ease-in-out forwards;
 }
 
 @keyframes grow {
     from {
-        transform: scale(0.3);
+        transform: scale(0.35);
     }
     to {
         transform: scale(1);
