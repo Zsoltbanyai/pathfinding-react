@@ -24,6 +24,7 @@
 }
 
 .node.visited {
+    background-color: crimson;
     animation: grow 0.3s ease-in-out forwards,
                color-transition-visited 0.8s ease-in-out forwards;
 }

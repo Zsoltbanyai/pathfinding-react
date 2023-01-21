@@ -4,11 +4,11 @@ import {faFlag, faLocationCrosshairs} from '@fortawesome/free-solid-svg-icons';
 
 export const Node = ({ nodeId, onClick, onMouseEnter, isStart, isEnd, isVisited, isPath, isWall }) => {
     let className = `node node${nodeId}`;
-    if (isStart) className += " start-node";
-    if (isEnd) className += " end-node";
-    if (isPath) className += " path";
-    if (isWall) className += " wall";
-    if (isVisited) className += " visited";
+    if (isStart) className += ' start-node';
+    if (isEnd) className += ' end-node';
+    if (isPath) className += ' path';
+    if (isWall) className += ' wall';
+    if (isVisited) className += ' visited';
 
     return (
         <div
