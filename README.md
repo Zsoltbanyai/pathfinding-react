@@ -17,7 +17,7 @@ To run this project, clone the repository and run `npm install` to install the n
 Note:
 - This app is optimized for mouse input.
 - The animation only plays when you press Play, not when you change the grid.
-- If you press Pause or move either the start or end node during the animation, the animation stops and all visited and path nodes are cleared.
+- If you press Pause or hold down the left or right mouse button during animation, the animation stops and all visited and path nodes are cleared.
 - You can adjust the size of the grid by changing the numOfRows and numOfCols props passed to the Grid component, in App.js.
 
 

@@ -1,7 +1,7 @@
 import './Grid.css';
 import {Node} from '../node/Node';
-import {BFS} from "../algorithm/Bfs";
-import React, {useCallback, useEffect, useState} from "react";
+import {BFS} from '../algorithm/Bfs';
+import React, {useCallback, useEffect, useState} from 'react';
 
 export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning }) => {
     const GRID_WIDTH = numOfCols * 2;
@@ -103,9 +103,9 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning }) => {
 
     const handleMouseEnter = (nodeId) => {
         if (clickEvent) {
-            if (activeNodeType === "startNode") {
+            if (activeNodeType === 'startNode') {
                 setStartNode(nodeId);
-            } else if (activeNodeType === "endNode") {
+            } else if (activeNodeType === 'endNode') {
                 setEndNode(nodeId);
             }
         }
@@ -119,10 +119,10 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning }) => {
     const handleNodeClick = (nodeId) => {
         if (nodeId === startNode) {
             setClickEvent(!clickEvent);
-            setActiveNodeType("startNode");
+            setActiveNodeType('startNode');
         } else if (nodeId === endNode) {
             setClickEvent(!clickEvent);
-            setActiveNodeType("endNode");
+            setActiveNodeType('endNode');
         }
     }
 
@@ -155,7 +155,7 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning }) => {
     }
 
     return (
-        <div className="grid"
+        <div className='grid'
              onMouseDown={(e) => {
                  handleMouseDown(e);
              }}
