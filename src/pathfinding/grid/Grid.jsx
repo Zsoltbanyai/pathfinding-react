@@ -12,7 +12,7 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning }) => {
 
     const [startNode, setStartNode] = useState(`${START_ROW}_${START_COL}`);
     const [endNode, setEndNode] = useState(`${END_ROW}_${END_COL}`);
-    const [activeNodeType, setActiveNodeType] = useState(null);
+    const [activeNodeType, setActiveNodeType] = useState('');
     const [clickEvent, setClickEvent] = useState(false);
     const [isDrawingWall, setIsDrawingWall] = useState(false);
     const [isErasingWalls, setIsErasingWalls] = useState(false);
@@ -25,7 +25,7 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning }) => {
     const [isAnimating, setIsAnimating] = useState(false);
     const [timeoutIds, setTimeoutIds] = useState([]);
 
-    function animate(pathNodes, visitedNodes) {
+    const animate = (pathNodes, visitedNodes) => {
         let delay = 0;
         let ids = [];
         setIsAnimating(true);
@@ -50,7 +50,7 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning }) => {
         }, delay);
         ids.push(timeoutId);
         return ids;
-    }
+    };
 
     const clearAnimation = useCallback(() => {
         timeoutIds.forEach(clearTimeout);
@@ -117,10 +117,6 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning }) => {
     }
 
     const handleNodeClick = (nodeId) => {
-        if (isAnimating && (nodeId === startNode || nodeId === endNode)) {
-            // this will trigger the clearAnimation() function
-            setIsRunning(false);
-        }
         if (nodeId === startNode) {
             setClickEvent(!clickEvent);
             setActiveNodeType("startNode");
@@ -133,6 +129,8 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning }) => {
     const handleMouseDown = (e) => {
         // for the default 'dragging' functionality to turn off in the browser
         e.preventDefault();
+        // this will trigger the clearAnimation() function
+        if (isAnimating) setIsRunning(false);
         setIsDrawingWall(true);
     }
 
@@ -170,7 +168,8 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning }) => {
                  gridTemplateRows: `repeat(${numOfRows}, minmax(2vw, 1fr))`,
                  gridTemplateColumns: `repeat(${numOfCols}, minmax(2vw, 1fr))`,
                  width: `${GRID_WIDTH}%`
-        }}>
+             }}
+        >
             {grid.map((node) => (
                 <Node
                     key={node.id}
@@ -182,8 +181,7 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning }) => {
                     isWall={wallNodes.includes(node.id) && node.id !== endNode}
                     onClick={() => handleNodeClick(node.id)}
                     onMouseEnter={() => onMouseEnter(node.id)}
-                >
-                </Node>
+                />
             ))}
         </div>
     );
