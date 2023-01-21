@@ -58,7 +58,9 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning }) => {
         const pathNodes = document.querySelectorAll('.path');
         visitedNodes.forEach(node => node.classList.remove('visited'));
         pathNodes.forEach(node => node.classList.remove('path'));
+        // these are set to false due to the if conditions in the effect hook below
         setIsAnimating(false);
+        // the animation would not start over but render instantly when you press Play again
         setIsAnimationDone(false);
     }, [timeoutIds]);
 
@@ -116,6 +118,7 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning }) => {
 
     const handleNodeClick = (nodeId) => {
         if (isAnimating && (nodeId === startNode || nodeId === endNode)) {
+            // this will trigger the clearAnimation() function
             setIsRunning(false);
         }
         if (nodeId === startNode) {
