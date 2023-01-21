@@ -12,12 +12,12 @@ To run this project, clone the repository and run `npm install` to install the n
 * Click on either the start or end node and move your cursor to reposition. Click again to place the node.
 * Press and hold left mouse button to draw a wall, press right mouse button to erase.
 * Press Play to see the animation, then feel free to change the nodes on the grid to see an instant re-render.
-* Press Stop to clear the grid of visited and path nodes.
+* Press Pause to clear the grid of visited and path nodes.
 
 Note:
 - This app is optimized for mouse input.
 - The animation only plays when you press Play, not when you change the grid.
-- If you press Pause or move either the start or end node during the animation, the animation stops and all visited/path nodes are cleared.
+- If you press Pause or move either the start or end node during the animation, the animation stops and all visited and path nodes are cleared.
 - You can adjust the size of the grid by changing the numOfRows and numOfCols props passed to the Grid component, in App.js.
 
 
