@@ -8,13 +8,13 @@
 
 .node .start-icon {
     z-index: 0;
-    font-size: 3vb;
+    font-size: 1.7vi;
     animation: grow 0.3s ease-in-out forwards;
 }
 
 .node .end-icon {
     z-index: 0;
-    font-size: 3vb;
+    font-size: 1.6vi;
     animation: grow 0.3s ease-in-out forwards;
 }
 
