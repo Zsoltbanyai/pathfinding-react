@@ -25,25 +25,30 @@ export const Grid = ({ numOfRows, numOfCols, isRunning }) => {
     const [isAnimating, setIsAnimating] = useState(false);
 
     function animate(path, visitedNodes) {
-        let delay = 0;
+        let visitedIntervalId;
+        let pathIntervalId;
+        let visitedDelay = 3;
+        let pathDelay = 22;
         setIsAnimating(true);
-        for (let visitedId of visitedNodes) {
-            setTimeout(() => {
-                const node = document.querySelector(`.node${visitedId}`);
+        visitedIntervalId = setInterval(() => {
+            if (visitedNodes.length) {
+                const nodeId = visitedNodes.shift();
+                const node = document.querySelector(`.node${nodeId}`);
                 node.classList.add('visited');
-            }, delay);
-            delay += 8;
-        }
-        for (let pathId of path) {
-            setTimeout(() => {
-                const node = document.querySelector(`.node${pathId}`);
-                node.classList.add('path');
-            }, delay);
-            delay += 30;
-        }
-        setTimeout(() => {
-            setIsAnimating(false);
-        }, delay);
+            } else {
+                clearInterval(visitedIntervalId);
+                pathIntervalId = setInterval(() => {
+                    if (path.length) {
+                        const nodeId = path.shift();
+                        const node = document.querySelector(`.node${nodeId}`);
+                        node.classList.add('path');
+                    } else {
+                        clearInterval(pathIntervalId);
+                        setIsAnimating(false);
+                    }
+                }, pathDelay);
+            }
+        }, visitedDelay);
     }
 
     useEffect(() => {
