@@ -27,8 +27,8 @@ export const Grid = ({ numOfRows, numOfCols, isRunning }) => {
     function animate(path, visitedNodes) {
         let visitedIntervalId;
         let pathIntervalId;
-        let visitedDelay = 3;
-        let pathDelay = 22;
+        let visitedDelay = 8;
+        let pathDelay = 30;
         setIsAnimating(true);
         visitedIntervalId = setInterval(() => {
             if (visitedNodes.length) {
