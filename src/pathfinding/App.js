@@ -23,6 +23,7 @@ function App() {
                 numOfRows={20}
                 numOfCols={40}
                 isRunning={isRunning}
+                setIsRunning={setIsRunning}
             />
         </div>
     );

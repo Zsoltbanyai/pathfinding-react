@@ -1,7 +1,6 @@
 import './Node.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faFlag, faLocationCrosshairs} from '@fortawesome/free-solid-svg-icons';
-import React from "react";
 
 export const Node = ({ nodeId, onClick, onMouseEnter, isStart, isEnd, isVisited, isPath, isWall }) => {
     let className = `node node${nodeId}`;

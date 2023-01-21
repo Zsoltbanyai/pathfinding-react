@@ -1,9 +1,9 @@
 import './Grid.css';
 import {Node} from '../node/Node';
 import {BFS} from "../algorithm/Bfs";
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 
-export const Grid = ({ numOfRows, numOfCols, isRunning }) => {
+export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning }) => {
     const GRID_WIDTH = numOfCols * 2;
     const START_ROW = Math.floor(numOfRows/5);
     const START_COL = Math.floor(numOfCols/6);
@@ -18,58 +18,68 @@ export const Grid = ({ numOfRows, numOfCols, isRunning }) => {
     const [isErasingWalls, setIsErasingWalls] = useState(false);
     const [wallNodes, setWallNodes] = useState([]);
 
-    const [path, setPath] = useState([]);
+    const [pathNodes, setPathNodes] = useState([]);
     const [visitedNodes, setVisitedNodes] = useState([]);
 
     const [isAnimationDone, setIsAnimationDone] = useState(false);
     const [isAnimating, setIsAnimating] = useState(false);
+    const [timeoutIds, setTimeoutIds] = useState([]);
 
-    function animate(path, visitedNodes) {
-        let visitedIntervalId;
-        let pathIntervalId;
-        let visitedDelay = 8;
-        let pathDelay = 30;
+    function animate(pathNodes, visitedNodes) {
+        let delay = 0;
+        let ids = [];
         setIsAnimating(true);
-        visitedIntervalId = setInterval(() => {
-            if (visitedNodes.length) {
-                const nodeId = visitedNodes.shift();
-                const node = document.querySelector(`.node${nodeId}`);
+        for (let visitedId of visitedNodes) {
+            const visitedTimeoutId = setTimeout(() => {
+                const node = document.querySelector(`.node${visitedId}`);
                 node.classList.add('visited');
-            } else {
-                clearInterval(visitedIntervalId);
-                pathIntervalId = setInterval(() => {
-                    if (path.length) {
-                        const nodeId = path.shift();
-                        const node = document.querySelector(`.node${nodeId}`);
-                        node.classList.add('path');
-                    } else {
-                        clearInterval(pathIntervalId);
-                        setIsAnimating(false);
-                    }
-                }, pathDelay);
-            }
-        }, visitedDelay);
+            }, delay);
+            delay += 8;
+            ids.push(visitedTimeoutId);
+        }
+        for (let pathId of pathNodes) {
+            const pathTimeoutId = setTimeout(() => {
+                const node = document.querySelector(`.node${pathId}`);
+                node.classList.add('path');
+            }, delay);
+            delay += 30;
+            ids.push(pathTimeoutId);
+        }
+        const timeoutId = setTimeout(() => {
+            setIsAnimating(false);
+        }, delay);
+        ids.push(timeoutId);
+        return ids;
     }
+
+    const clearAnimation = useCallback(() => {
+        timeoutIds.forEach(clearTimeout);
+        const visitedNodes = document.querySelectorAll('.visited');
+        const pathNodes = document.querySelectorAll('.path');
+        visitedNodes.forEach(node => node.classList.remove('visited'));
+        pathNodes.forEach(node => node.classList.remove('path'));
+        setIsAnimating(false);
+        setIsAnimationDone(false);
+    }, [timeoutIds]);
 
     useEffect(() => {
         if (!isRunning) {
-            setPath([]);
-            setVisitedNodes([]);
-            setIsAnimationDone(false);
+            clearAnimation();
             return;
         }
 
         if (!isAnimating) {
             const result = BFS(startNode, endNode, wallNodes, numOfCols, numOfRows);
             if (!isAnimationDone) {
-                animate(result[0], result[1]);
+                setTimeoutIds(animate(result[0], result[1]));
                 setIsAnimationDone(true);
             } else {
-                setPath(result[0]);
+                setPathNodes(result[0]);
                 setVisitedNodes(result[1]);
             }
         }
-    }, [endNode, isAnimating, isAnimationDone, isRunning, numOfCols, numOfRows, startNode, wallNodes]);
+    }, [clearAnimation, endNode, isAnimating, isAnimationDone,
+             isRunning, numOfCols, numOfRows, startNode, wallNodes]);
 
     const isStartNode = (nodeId) => {
         return nodeId === startNode;
@@ -105,6 +115,9 @@ export const Grid = ({ numOfRows, numOfCols, isRunning }) => {
     }
 
     const handleNodeClick = (nodeId) => {
+        if (isAnimating && (nodeId === startNode || nodeId === endNode)) {
+            setIsRunning(false);
+        }
         if (nodeId === startNode) {
             setClickEvent(!clickEvent);
             setActiveNodeType("startNode");
@@ -162,7 +175,7 @@ export const Grid = ({ numOfRows, numOfCols, isRunning }) => {
                     isStart={node.id === startNode}
                     isEnd={node.id === endNode}
                     isVisited={visitedNodes.includes(node.id)}
-                    isPath={path.includes(node.id)}
+                    isPath={pathNodes.includes(node.id)}
                     isWall={wallNodes.includes(node.id) && node.id !== endNode}
                     onClick={() => handleNodeClick(node.id)}
                     onMouseEnter={() => onMouseEnter(node.id)}
