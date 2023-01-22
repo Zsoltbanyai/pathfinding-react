@@ -4,11 +4,10 @@ import {BFS} from '../algorithm/Bfs';
 import {useCallback, useEffect, useState} from 'react';
 
 export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning, eraseButton }) => {
-    const GRID_WIDTH = numOfCols * 2;
-    const START_ROW = Math.floor(numOfRows/5);
+    const START_ROW = Math.floor(numOfRows/3);
     const START_COL = Math.floor(numOfCols/6);
-    const END_ROW = Math.floor(numOfRows/4*2);
-    const END_COL = Math.floor(numOfCols/5*3);
+    const END_ROW = Math.floor(numOfRows/2);
+    const END_COL = Math.floor(numOfCols/1.5);
 
     const [startNode, setStartNode] = useState(`${START_ROW}_${START_COL}`);
     const [endNode, setEndNode] = useState(`${END_ROW}_${END_COL}`);
@@ -174,8 +173,7 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning, eraseButto
              style={{
                  // for dynamic styling of the grid
                  gridTemplateRows: `repeat(${numOfRows}, minmax(2vw, 1fr))`,
-                 gridTemplateColumns: `repeat(${numOfCols}, minmax(2vw, 1fr))`,
-                 width: `${GRID_WIDTH}%`
+                 gridTemplateColumns: `repeat(${numOfCols}, minmax(2vw, 1fr))`
              }}
         >
             {grid.map((node) => (
