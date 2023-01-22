@@ -1,14 +1,18 @@
 import './Navbar.css';
+import {MyButton} from "../button/Button";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faPause, faPlay} from "@fortawesome/free-solid-svg-icons";
 
-export const Navbar = ({ icon, startStop }) => {
+
+export const Navbar = ({ startStop, isRunning }) => {
     return (
         <div className="navbar">
-            <button
-                className="button play-button"
+            <MyButton
+                content={isRunning ? <FontAwesomeIcon icon={faPause} className="icon play-icon"/>
+                                   : <FontAwesomeIcon icon={faPlay} className="icon play-icon"/>}
                 onClick={startStop}
-            >
-                {icon}
-            </button>
+                className={'play'}
+            />
         </div>
     );
 }

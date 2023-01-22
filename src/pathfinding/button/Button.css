@@ -1,0 +1,17 @@
+.my-button {
+    background: transparent;
+    border: none;
+}
+
+.my-button.pressed {
+    transform: scale(0.8);
+}
+
+.icon {
+    color: aliceblue;
+}
+
+.icon.play-icon {
+    font-size: 8vb;
+    padding: 2vb;
+}

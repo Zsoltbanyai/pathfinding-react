@@ -5,14 +5,3 @@
     top: 0;
     height: max-content;
 }
-
-.icon {
-    font-size: 8vb;
-    color: aliceblue;
-    padding: 2vb;
-}
-
-.button.play-button {
-    background: transparent;
-    border: none;
-}

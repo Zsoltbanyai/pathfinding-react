@@ -2,8 +2,6 @@ import './App.css';
 import {Grid} from './grid/Grid';
 import {Navbar} from "./navbar/Navbar";
 import {useState} from "react";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faPause, faPlay} from "@fortawesome/free-solid-svg-icons";
 
 function App() {
     const [isRunning, setIsRunning] = useState(false);
@@ -15,8 +13,7 @@ function App() {
     return (
         <div className="App">
             <Navbar
-                icon={isRunning ? <FontAwesomeIcon icon={faPause} className="icon"/>
-                                : <FontAwesomeIcon icon={faPlay} className="icon"/>}
+                isRunning={isRunning}
                 startStop={startStop}
             />
             <Grid
