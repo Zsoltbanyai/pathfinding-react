@@ -1,9 +1,9 @@
 import './Grid.css';
 import {Node} from '../node/Node';
 import {BFS} from '../algorithm/Bfs';
-import React, {useCallback, useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 
-export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning }) => {
+export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning, eraseButton }) => {
     const GRID_WIDTH = numOfCols * 2;
     const START_ROW = Math.floor(numOfRows/5);
     const START_COL = Math.floor(numOfCols/6);
@@ -82,6 +82,12 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning }) => {
         }
     }, [clearAnimation, endNode, isAnimating, isAnimationDone,
              isRunning, numOfCols, numOfRows, startNode, wallNodes]);
+
+    // Erases all wall nodes and stops the animation when the button is pressed
+    useEffect(() => {
+        setWallNodes([]);
+        setIsRunning(false);
+    }, [eraseButton, setIsRunning]);
 
     const isStartNode = (nodeId) => {
         return nodeId === startNode;

@@ -1,7 +1,6 @@
 /* there is some additional inline styling in Grid.jsx to make it dynamic */
 .grid {
+    position: relative;
     display: grid;
-    margin: auto;
-    padding: 12vb;
     grid-gap: 0;
 }

@@ -13,6 +13,7 @@ To run this project, clone the repository and run `npm install` to install the n
 * Press and hold left mouse button to draw a wall, press right mouse button to erase.
 * Press Play to see the animation, then feel free to change the nodes on the grid to see an instant re-render.
 * Press Pause to clear the grid of visited and path nodes.
+* Press the Erase Wall button below the grid to erase all walls drawn. This button also stops the animation if it is pressed while the animation is running.
 
 Note:
 - This app is optimized for mouse input.

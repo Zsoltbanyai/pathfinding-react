@@ -2,9 +2,17 @@ import './App.css';
 import {Grid} from './grid/Grid';
 import {Navbar} from "./navbar/Navbar";
 import {useState} from "react";
+import {MyButton} from "./button/Button";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faTrash} from "@fortawesome/free-solid-svg-icons";
 
 function App() {
     const [isRunning, setIsRunning] = useState(false);
+    const [eraseButton, setEraseButton] = useState(false);
+
+    const handleEraseButtonClick = () => {
+        setEraseButton(!eraseButton);
+    }
 
     const startStop = () => {
         setIsRunning(!isRunning);
@@ -16,12 +24,20 @@ function App() {
                 isRunning={isRunning}
                 startStop={startStop}
             />
-            <Grid
-                numOfRows={20}
-                numOfCols={40}
-                isRunning={isRunning}
-                setIsRunning={setIsRunning}
-            />
+            <div className='grid-container'>
+                <Grid
+                    numOfRows={20}
+                    numOfCols={40}
+                    isRunning={isRunning}
+                    setIsRunning={setIsRunning}
+                    eraseButton={eraseButton}
+                />
+                <MyButton
+                    content={<FontAwesomeIcon icon={faTrash} title={'erase wall'}/>}
+                    className={'erase-wall'}
+                    onClick={handleEraseButtonClick}
+                />
+            </div>
         </div>
     );
 }
