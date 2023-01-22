@@ -29,17 +29,17 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning, eraseButto
         let delay = 0;
         let ids = [];
         setIsAnimating(true);
-        for (let visitedId of visitedNodes) {
+        for (let visitedNode of visitedNodes) {
             const visitedTimeoutId = setTimeout(() => {
-                const node = document.querySelector(`.node${visitedId}`);
+                const node = document.querySelector(`.node${visitedNode}`);
                 node.classList.add('visited');
             }, delay);
             delay += 8;
             ids.push(visitedTimeoutId);
         }
-        for (let pathId of pathNodes) {
+        for (let pathNode of pathNodes) {
             const pathTimeoutId = setTimeout(() => {
-                const node = document.querySelector(`.node${pathId}`);
+                const node = document.querySelector(`.node${pathNode}`);
                 node.classList.add('path');
             }, delay);
             delay += 30;
@@ -58,6 +58,8 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning, eraseButto
         const pathNodes = document.querySelectorAll('.path');
         visitedNodes.forEach(node => node.classList.remove('visited'));
         pathNodes.forEach(node => node.classList.remove('path'));
+        setPathNodes([]);
+        setVisitedNodes([]);
         // these are set to false due to the if conditions in the effect hook below
         setIsAnimating(false);
         // the animation would not start over but render instantly when you press Play again
@@ -85,8 +87,8 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning, eraseButto
 
     // Erases all wall nodes and stops the animation when the button is pressed
     useEffect(() => {
-        setWallNodes([]);
         setIsRunning(false);
+        setWallNodes([]);
     }, [eraseButton, setIsRunning]);
 
     const isStartNode = (nodeId) => {

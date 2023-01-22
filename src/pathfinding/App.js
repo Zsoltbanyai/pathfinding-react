@@ -12,6 +12,7 @@ function App() {
 
     const handleEraseButtonClick = () => {
         setEraseButton(!eraseButton);
+        // setIsRunning(false);
     }
 
     const startStop = () => {
@@ -33,7 +34,7 @@ function App() {
                     eraseButton={eraseButton}
                 />
                 <MyButton
-                    content={<FontAwesomeIcon icon={faTrash} title={'erase wall'}/>}
+                    content={<FontAwesomeIcon icon={faTrash} title={'Erase Wall'}/>}
                     className={'erase-wall'}
                     onClick={handleEraseButtonClick}
                 />
