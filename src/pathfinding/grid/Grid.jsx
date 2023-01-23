@@ -1,44 +1,94 @@
 import './Grid.css';
 import {Node} from '../node/Node';
 import {BFS} from '../algorithm/Bfs';
-import {useCallback, useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 
 export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning, eraseButton }) => {
-    const START_ROW = Math.floor(numOfRows/3);
-    const START_COL = Math.floor(numOfCols/6);
-    const END_ROW = Math.floor(numOfRows/2);
-    const END_COL = Math.floor(numOfCols/1.5);
+    const startIndex = Math.floor(numOfCols * numOfRows / 2) - (numOfCols / 2);
+    const endIndex = startIndex + numOfCols - 1;
+    const initialNodes = Array(numOfCols * numOfRows).fill('');
+    initialNodes[startIndex] = 'start';
+    initialNodes[endIndex] = 'end';
 
-    const [startNode, setStartNode] = useState(`${START_ROW}_${START_COL}`);
-    const [endNode, setEndNode] = useState(`${END_ROW}_${END_COL}`);
+    const [interactionIndex, setInteractionIndex] = useState(0);
     const [activeNodeType, setActiveNodeType] = useState('');
     const [clickEvent, setClickEvent] = useState(false);
-    const [isDrawingWall, setIsDrawingWall] = useState(false);
+    const [isButtonDown, setIsButtonDown] = useState(false);
     const [isErasingWalls, setIsErasingWalls] = useState(false);
-    const [wallNodes, setWallNodes] = useState([]);
-
-    const [pathNodes, setPathNodes] = useState([]);
-    const [visitedNodes, setVisitedNodes] = useState([]);
-
     const [isAnimationDone, setIsAnimationDone] = useState(false);
     const [isAnimating, setIsAnimating] = useState(false);
     const [timeoutIds, setTimeoutIds] = useState([]);
 
-    const animate = (pathNodes, visitedNodes) => {
+    const [nodes, setNodes] = useState(initialNodes);
+
+    const clearNodeValue = (value) => {
+        setNodes(prev => prev.map(node => node.replace(value, '')));
+
+    }
+
+    const changeNodeValue = (index, value) => {
+        setNodes(prev => {
+            const newNodes = [...prev];
+            newNodes[index] = value;
+            return newNodes;
+        });
+
+    }
+
+    const updateNodeValue = (index, value) => {
+        setNodes(prev => {
+            const newNodes = [...prev];
+            newNodes[index] += ` ${value}`;
+            return newNodes;
+        });
+
+    }
+
+    const removeNodeValue = (index, value) => {
+        setNodes(prev => {
+            const newNodes = [...prev];
+            newNodes[index] = newNodes[index].replace(value, '');
+            return newNodes;
+        });
+
+    }
+
+    function updateNodeValues(indexes, value) {
+        setNodes(prev => {
+            const updatedNodes = [...prev];
+            indexes.forEach(index => {
+                updatedNodes[index] += ` ${value}`;
+            });
+            return updatedNodes;
+        });
+
+    }
+
+    function findNodeIndex(value) {
+        const indexes = nodes.reduce((acc, node, index) => {
+            if (node.includes(value)) acc.push(index);
+            return acc;
+        }, []);
+        return indexes.length === 1 ? indexes[0] : indexes;
+
+    }
+
+    const animate = (pathIndexes, visitedIndexes) => {
         let delay = 0;
         let ids = [];
         setIsAnimating(true);
-        for (let visitedNode of visitedNodes) {
+        for (let visitedIndex of visitedIndexes) {
             const visitedTimeoutId = setTimeout(() => {
-                const node = document.querySelector(`.node${visitedNode}`);
+                const node = document.querySelector(`.node${visitedIndex}`);
                 node.classList.add('visited');
             }, delay);
             delay += 8;
+
             ids.push(visitedTimeoutId);
         }
-        for (let pathNode of pathNodes) {
+        for (let pathIndex of pathIndexes) {
             const pathTimeoutId = setTimeout(() => {
-                const node = document.querySelector(`.node${pathNode}`);
+                const node = document.querySelector(`.node${pathIndex}`);
                 node.classList.add('path');
             }, delay);
             delay += 30;
@@ -51,19 +101,19 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning, eraseButto
         return ids;
     };
 
-    const clearAnimation = useCallback(() => {
+    const clearAnimation = () => {
         timeoutIds.forEach(clearTimeout);
         const visitedNodes = document.querySelectorAll('.visited');
         const pathNodes = document.querySelectorAll('.path');
         visitedNodes.forEach(node => node.classList.remove('visited'));
         pathNodes.forEach(node => node.classList.remove('path'));
-        setPathNodes([]);
-        setVisitedNodes([]);
+        clearNodeValue('path');
+        clearNodeValue('visited');
         // these are set to false due to the if conditions in the effect hook below
         setIsAnimating(false);
         // the animation would not start over but render instantly when you press Play again
         setIsAnimationDone(false);
-    }, [timeoutIds]);
+    };
 
     useEffect(() => {
         if (!isRunning) {
@@ -72,91 +122,112 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning, eraseButto
         }
 
         if (!isAnimating) {
-            const result = BFS(startNode, endNode, wallNodes, numOfCols, numOfRows);
+            const result = BFS(
+                findNodeIndex('start'),
+                findNodeIndex('end'),
+                findNodeIndex('wall'),
+                numOfCols,
+                numOfRows
+            );
             if (!isAnimationDone) {
                 setTimeoutIds(animate(result[0], result[1]));
                 setIsAnimationDone(true);
             } else {
-                setPathNodes(result[0]);
-                setVisitedNodes(result[1]);
+                clearNodeValue('visited');
+                clearNodeValue('path');
+                updateNodeValues(result[1], 'visited');
+                updateNodeValues(result[0], 'path');
             }
         }
-    }, [clearAnimation, endNode, isAnimating, isAnimationDone,
-             isRunning, numOfCols, numOfRows, startNode, wallNodes]);
+    }, [isAnimating, isAnimationDone, isRunning, numOfCols, numOfRows, interactionIndex]);
 
     // Erases all wall nodes and stops the animation when the button is pressed
     useEffect(() => {
         setIsRunning(false);
-        setWallNodes([]);
-    }, [eraseButton, setIsRunning]);
+        clearNodeValue('wall');
+    }, [eraseButton]);
 
-    const isStartNode = (nodeId) => {
-        return nodeId === startNode;
+    const isStartNode = (index) => {
+        return index === findNodeIndex('start');
     }
-    const isEndNode = (nodeId) => {
-        return nodeId === endNode;
+    const isEndNode = (index) => {
+        return index === findNodeIndex('end');
     }
-    const drawWall = (nodeId) => {
-        if (isDrawingWall && !isStartNode(nodeId) && !isEndNode(nodeId)) {
+    const drawWall = (index) => {
+        if (isButtonDown && !isStartNode(index) && !isEndNode(index)) {
+            if (interactionIndex !== index) setInteractionIndex(index);
             if (isErasingWalls) {
                 // remove wall
-                setWallNodes(wallNodes.filter(id => id !== nodeId));
+                changeNodeValue(index, '');
             } else {
                 // add wall
-                setWallNodes([...wallNodes, nodeId]);
+                changeNodeValue(index, 'wall');
             }
         }
     }
 
-    const handleMouseEnter = (nodeId) => {
+    const handleNodeEnter = (index) => {
         if (clickEvent) {
-            if (activeNodeType === 'startNode') {
-                setStartNode(nodeId);
-            } else if (activeNodeType === 'endNode') {
-                setEndNode(nodeId);
+            if (activeNodeType === 'start') {
+                updateNodeValue(index, 'start');
+                if (interactionIndex !== index) setInteractionIndex(index);
+            } else if (activeNodeType === 'end') {
+                updateNodeValue(index, 'end');
+                if (interactionIndex !== index) setInteractionIndex(index);
             }
         }
     }
 
-    const onMouseEnter = (nodeId) => {
-        handleMouseEnter(nodeId);
-        drawWall(nodeId);
-    }
-
-    const handleNodeClick = (nodeId) => {
-        if (nodeId === startNode) {
-            setClickEvent(!clickEvent);
-            setActiveNodeType('startNode');
-        } else if (nodeId === endNode) {
-            setClickEvent(!clickEvent);
-            setActiveNodeType('endNode');
+    const onNodeLeave = (index) => {
+        if (clickEvent) {
+            if (nodes[index].includes('end') && activeNodeType === 'end') {
+                removeNodeValue(index, 'end');
+            } else if (nodes[index].includes('start') && activeNodeType === 'start') {
+                removeNodeValue(index, 'start');
+            }
         }
     }
 
-    const handleMouseDown = (e) => {
+    const onNodeEnter = (index) => {
+        handleNodeEnter(index);
+        drawWall(index);
+    }
+
+    const onNodeClick = (index) => {
+        if (nodes[index].includes('end')) {
+            setClickEvent(!clickEvent);
+            setActiveNodeType('end');
+        } else if (nodes[index].includes('start')) {
+            setClickEvent(!clickEvent);
+            setActiveNodeType('start');
+        }
+    }
+
+    const onGridMouseDown = (e) => {
         // for the default 'dragging' functionality to turn off in the browser
         e.preventDefault();
         // this will trigger the clearAnimation() function
         if (isAnimating) setIsRunning(false);
-        setIsDrawingWall(true);
+        setIsButtonDown(true);
     }
 
-    const handleLeftClick = (e) => {
+    const onGridLeftClick = (e) => {
         e.preventDefault();
         setIsErasingWalls(true);
     }
 
-    const handleMouseUp = () => {
+    const onGridMouseUp = () => {
         // 'onMouseUp' is triggered on both the left and right mouse buttons
-        setIsDrawingWall(false);
+        setIsButtonDown(false);
         setIsErasingWalls(false);
     }
 
-    const grid = []
+    const grid = [];
     for (let row = 0; row < numOfRows; row++) {
         for (let col = 0; col < numOfCols; col++) {
             grid.push({
-                id: `${row}_${col}`
+                id: `${row}_${col}`,
+                index: col + (row * numOfCols)
             });
         }
     }
@@ -164,29 +235,26 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning, eraseButto
     return (
         <div className='grid'
              onMouseDown={(e) => {
-                 handleMouseDown(e);
+                 onGridMouseDown(e);
              }}
              onContextMenu={(e) => {
-                 handleLeftClick(e);
+                 onGridLeftClick(e);
              }}
-             onMouseUp={handleMouseUp}
+             onMouseUp={onGridMouseUp}
              style={{
                  // for dynamic styling of the grid
-                 gridTemplateRows: `repeat(${numOfRows}, minmax(2vw, 1fr))`,
-                 gridTemplateColumns: `repeat(${numOfCols}, minmax(2vw, 1fr))`
+                 gridTemplateRows: `repeat(${numOfRows}, 2vw)`,
+                 gridTemplateColumns: `repeat(${numOfCols}, 2vw)`
              }}
         >
             {grid.map((node) => (
                 <Node
                     key={node.id}
-                    nodeId={node.id}
-                    isStart={node.id === startNode}
-                    isEnd={node.id === endNode}
-                    isVisited={visitedNodes.includes(node.id)}
-                    isPath={pathNodes.includes(node.id)}
-                    isWall={wallNodes.includes(node.id) && node.id !== endNode}
-                    onClick={() => handleNodeClick(node.id)}
-                    onMouseEnter={() => onMouseEnter(node.id)}
+                    nodeId={node.index}
+                    onClick={() => onNodeClick(node.index)}
+                    onMouseEnter={() => onNodeEnter(node.index)}
+                    onMouseLeave={() => onNodeLeave(node.index)}
+                    state={nodes[node.index]}
                 />
             ))}
         </div>

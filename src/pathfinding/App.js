@@ -12,7 +12,6 @@ function App() {
 
     const handleEraseButtonClick = () => {
         setEraseButton(!eraseButton);
-        // setIsRunning(false);
     }
 
     const startStop = () => {

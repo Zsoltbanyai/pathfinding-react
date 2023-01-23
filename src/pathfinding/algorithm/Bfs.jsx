@@ -58,22 +58,29 @@ function retracePath(startNode, endNode, parentNodes) {
 
 function getNeighbors(node, numOfCols, numOfRows) {
     const neighbors = [];
-    const [row, col] = node.split("_").map(n => parseInt(n));
+
+    const NORTH = node - numOfCols;
+    const SOUTH = node + numOfCols;
+    const EAST = node + 1;
+    const WEST = node - 1;
+    const MAX = numOfCols * numOfRows;
+    const rowNum = Math.floor(node/numOfCols);
+
     // Check north
-    if (row > 0) {
-        neighbors.push(`${row-1}_${col}`);
+    if (NORTH >= 0) {
+        neighbors.push(NORTH);
     }
     // Check east
-    if (col < numOfCols - 1) {
-        neighbors.push(`${row}_${col+1}`);
+    if (EAST - (rowNum * numOfCols) !== numOfCols) {
+        neighbors.push(EAST);
     }
     // Check south
-    if (row < numOfRows - 1) {
-        neighbors.push(`${row+1}_${col}`);
+    if (SOUTH < MAX) {
+        neighbors.push(SOUTH);
     }
     // Check west
-    if (col > 0) {
-        neighbors.push(`${row}_${col-1}`);
+    if (WEST - (rowNum * numOfCols) !== 0) {
+        neighbors.push(WEST);
     }
     return neighbors;
 }
