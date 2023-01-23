@@ -64,12 +64,21 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning, eraseButto
 
     }
 
-    function findNodeIndex(value) {
-        const indexes = nodes.reduce((acc, node, index) => {
+    function findNodeIndexes(value) {
+        return nodes.reduce((acc, node, index) => {
             if (node.includes(value)) acc.push(index);
             return acc;
         }, []);
-        return indexes.length === 1 ? indexes[0] : indexes;
+
+    }
+
+    const findNodeIndex = (value) => {
+        for (let i = 0; i < nodes.length; i++) {
+            if (nodes[i].includes(value)) {
+                return i;
+            }
+        }
+        return -1;
 
     }
 
@@ -125,7 +134,7 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning, eraseButto
             const result = BFS(
                 findNodeIndex('start'),
                 findNodeIndex('end'),
-                findNodeIndex('wall'),
+                findNodeIndexes('wall'),
                 numOfCols,
                 numOfRows
             );
