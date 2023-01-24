@@ -142,6 +142,7 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning, eraseButto
                 setTimeoutIds(animate(result[0], result[1]));
                 setIsAnimationDone(true);
             } else {
+                setInteractionIndex(-1);
                 clearNodeValue('visited');
                 clearNodeValue('path');
                 updateNodeValues(result[1], 'visited');
