@@ -221,7 +221,7 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning, eraseButto
     }
 
     const onNodeMove = (index) => {
-        if (interactionIndex !== index && clickEvent) setInteractionIndex(index);
+        if (interactionIndex !== index) setInteractionIndex(index);
     }
 
     const onGridMouseDown = (e) => {
