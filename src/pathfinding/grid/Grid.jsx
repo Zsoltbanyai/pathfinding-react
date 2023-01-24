@@ -10,7 +10,7 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning, eraseButto
     initialNodes[startIndex] = 'start';
     initialNodes[endIndex] = 'end';
 
-    const [interactionIndex, setInteractionIndex] = useState(0);
+    const [interactionIndex, setInteractionIndex] = useState(-1);
     const [activeNodeType, setActiveNodeType] = useState('');
     const [clickEvent, setClickEvent] = useState(false);
     const [isButtonDown, setIsButtonDown] = useState(false);
@@ -103,11 +103,14 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning, eraseButto
             delay += 30;
             ids.push(pathTimeoutId);
         }
+
         const timeoutId = setTimeout(() => {
             setIsAnimating(false);
         }, delay);
         ids.push(timeoutId);
+
         return ids;
+
     };
 
     const clearAnimation = () => {
@@ -122,6 +125,7 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning, eraseButto
         setIsAnimating(false);
         // the animation would not start over but render instantly when you press Play again
         setIsAnimationDone(false);
+
     };
 
     useEffect(() => {
@@ -160,9 +164,11 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning, eraseButto
     const isStartNode = (index) => {
         return index === findNodeIndex('start');
     }
+
     const isEndNode = (index) => {
         return index === findNodeIndex('end');
     }
+
     const drawWall = (index) => {
         if (isButtonDown && !isStartNode(index) && !isEndNode(index)) {
             if (interactionIndex !== index) setInteractionIndex(index);
@@ -174,6 +180,7 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning, eraseButto
                 changeNodeValue(index, 'wall');
             }
         }
+
     }
 
     const handleNodeEnter = (index) => {
@@ -186,6 +193,7 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning, eraseButto
                 if (interactionIndex !== index) setInteractionIndex(index);
             }
         }
+
     }
 
     const onNodeLeave = (index) => {
@@ -196,11 +204,13 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning, eraseButto
                 removeNodeValue(index, 'start');
             }
         }
+
     }
 
     const onNodeEnter = (index) => {
         handleNodeEnter(index);
         drawWall(index);
+
     }
 
     const onNodeClick = (index) => {
@@ -211,6 +221,7 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning, eraseButto
             setClickEvent(!clickEvent);
             setActiveNodeType('start');
         }
+
     }
 
     const onGridMouseDown = (e) => {
@@ -219,17 +230,20 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning, eraseButto
         // this will trigger the clearAnimation() function
         if (isAnimating) setIsRunning(false);
         setIsButtonDown(true);
+
     }
 
     const onGridLeftClick = (e) => {
         e.preventDefault();
         setIsErasingWalls(true);
+
     }
 
     const onGridMouseUp = () => {
         // 'onMouseUp' is triggered on both the left and right mouse buttons
         setIsButtonDown(false);
         setIsErasingWalls(false);
+
     }
 
     const grid = [];
@@ -269,4 +283,5 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning, eraseButto
             ))}
         </div>
     );
+
 }
