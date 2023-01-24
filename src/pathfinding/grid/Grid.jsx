@@ -168,7 +168,7 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning, eraseButto
             if (interactionIndex !== index) setInteractionIndex(index);
             if (isErasingWalls) {
                 // remove wall
-                changeNodeValue(index, '');
+                removeNodeValue(index, 'wall');
             } else {
                 // add wall
                 changeNodeValue(index, 'wall');
