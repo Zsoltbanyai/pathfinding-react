@@ -1,9 +1,11 @@
-.node {
+.node div {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid black;
+    border: 0.5px solid black;
     box-sizing: border-box;
+    width: 100%;
+    height: 100%;
 }
 
 .node .start-icon {
@@ -18,18 +20,18 @@
     animation: grow 0.3s ease-in-out forwards;
 }
 
-.node.wall {
+.node .wall {
     background-color: black;
     animation: grow 0.3s ease-in-out forwards;
 }
 
-.node.visited {
+.node .visited {
     background-color: crimson;
     animation: grow 0.3s ease-in-out forwards,
                color-transition-visited 0.8s ease-in-out forwards;
 }
 
-.node.path {
+.node .path {
     background-color: gold;
     animation: grow 0.3s ease-in-out forwards;
 }

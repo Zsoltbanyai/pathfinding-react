@@ -88,7 +88,7 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning, eraseButto
         setIsAnimating(true);
         for (let visitedIndex of visitedIndexes) {
             const visitedTimeoutId = setTimeout(() => {
-                const node = document.querySelector(`.node${visitedIndex}`);
+                const node = document.querySelector(`.node${visitedIndex} div`);
                 node.classList.add('visited');
             }, delay);
             delay += 8;
@@ -97,7 +97,7 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning, eraseButto
         }
         for (let pathIndex of pathIndexes) {
             const pathTimeoutId = setTimeout(() => {
-                const node = document.querySelector(`.node${pathIndex}`);
+                const node = document.querySelector(`.node${pathIndex} div`);
                 node.classList.add('path');
             }, delay);
             delay += 30;
@@ -146,7 +146,6 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning, eraseButto
                 setTimeoutIds(animate(result[0], result[1]));
                 setIsAnimationDone(true);
             } else {
-                setInteractionIndex(-1);
                 clearNodeValue('visited');
                 clearNodeValue('path');
                 updateNodeValues(result[1], 'visited');
@@ -171,7 +170,6 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning, eraseButto
 
     const drawWall = (index) => {
         if (isButtonDown && !isStartNode(index) && !isEndNode(index)) {
-            if (interactionIndex !== index) setInteractionIndex(index);
             if (isErasingWalls) {
                 // remove wall
                 removeNodeValue(index, 'wall');
@@ -187,10 +185,8 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning, eraseButto
         if (clickEvent) {
             if (activeNodeType === 'start') {
                 updateNodeValue(index, 'start');
-                if (interactionIndex !== index) setInteractionIndex(index);
-            } else if (activeNodeType === 'end') {
+            } else {
                 updateNodeValue(index, 'end');
-                if (interactionIndex !== index) setInteractionIndex(index);
             }
         }
 
@@ -222,6 +218,10 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning, eraseButto
             setActiveNodeType('start');
         }
 
+    }
+
+    const onNodeMove = (index) => {
+        if (interactionIndex !== index && clickEvent) setInteractionIndex(index);
     }
 
     const onGridMouseDown = (e) => {
@@ -278,6 +278,7 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning, eraseButto
                     onClick={() => onNodeClick(node.index)}
                     onMouseEnter={() => onNodeEnter(node.index)}
                     onMouseLeave={() => onNodeLeave(node.index)}
+                    onMouseMove={() => onNodeMove(node.index)}
                     state={nodes[node.index]}
                 />
             ))}

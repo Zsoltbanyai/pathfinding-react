@@ -2,13 +2,12 @@ import './Node.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faFlag, faLocationCrosshairs} from '@fortawesome/free-solid-svg-icons';
 
-export const Node = ({ nodeId, onClick, onMouseEnter, onMouseLeave, state }) => {
+export const Node = ({ nodeId, onClick, onMouseEnter, onMouseLeave, onMouseMove, state }) => {
     let className = `node node${nodeId}`;
+
     const isStart = state.includes('start');
     const isEnd = state.includes('end');
-
     state = isStart || isEnd ? state.replace('wall', '') : state;
-    className += ` ${state}`;
 
     return (
         <div
@@ -16,9 +15,12 @@ export const Node = ({ nodeId, onClick, onMouseEnter, onMouseLeave, state }) => 
             onClick={onClick}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
+            onMouseMove={onMouseMove}
         >
-            { isStart && <FontAwesomeIcon icon={faLocationCrosshairs} className="start-icon" /> }
-            { isEnd && <FontAwesomeIcon icon={faFlag} className="end-icon" /> }
+            <div className={state}>
+                { isStart && <FontAwesomeIcon icon={faLocationCrosshairs} className="start-icon" /> }
+                { isEnd && <FontAwesomeIcon icon={faFlag} className="end-icon" /> }
+            </div>
         </div>
     );
 
