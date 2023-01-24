@@ -79,7 +79,7 @@ function getNeighbors(node, numOfCols, numOfRows) {
         neighbors.push(SOUTH);
     }
     // Check west
-    if (WEST - (rowNum * numOfCols) !== 0) {
+    if (node - (rowNum * numOfCols) !== 0) {
         neighbors.push(WEST);
     }
     return neighbors;
