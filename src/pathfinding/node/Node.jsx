@@ -4,6 +4,9 @@ import {faFlag, faLocationCrosshairs} from '@fortawesome/free-solid-svg-icons';
 
 export const Node = ({ nodeId, onClick, onMouseEnter, onMouseLeave, state }) => {
     let className = `node node${nodeId}`;
+    state = state.includes('start') || state.includes('end')
+        ? state.replace('wall', '')
+        : state;
     className += ` ${state}`;
 
     const isStart = state.includes('start');
