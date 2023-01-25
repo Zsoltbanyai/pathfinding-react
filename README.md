@@ -1,9 +1,9 @@
 # BFS Visualization
 
-This project is a visualization of the Breadth-First Search algorithm. The user can create a grid of arbitrary size, 
+This project is a visualization of the Breadth-First Search algorithm. There is a 20x40 grid, where the user can 
 reposition the start and end nodes, and draw walls to create obstacles for the algorithm to navigate around. 
 The algorithm will then find the shortest path between the start and end nodes, 
-with each node visited and each step of the path being animated in real-time.
+with each node visited and each step of the path being animated to see BFS in action.
 
 ## Demo
 
