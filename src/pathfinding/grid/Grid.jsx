@@ -109,6 +109,7 @@ export const Grid = ({ isRunning, setIsRunning, eraseButton }) => {
 
         const timeoutId = setTimeout(() => {
             setIsAnimating(false);
+            setIsAnimationDone(true);
         }, delay);
         ids.push(timeoutId);
 
@@ -147,7 +148,7 @@ export const Grid = ({ isRunning, setIsRunning, eraseButton }) => {
             );
             if (!isAnimationDone) {
                 setTimeoutIds(animate(result[0], result[1]));
-                setIsAnimationDone(true);
+                // setIsAnimationDone(true);
             } else {
                 clearNodeValue('visited');
                 clearNodeValue('path');
@@ -197,7 +198,7 @@ export const Grid = ({ isRunning, setIsRunning, eraseButton }) => {
 
     const onNodeLeave = (index) => {
         if (clickEvent) {
-            if (nodes[index].includes('end') && activeNodeType === 'end') {
+            if (activeNodeType === 'end') {
                 removeNodeValue(index, 'end');
             } else {
                 removeNodeValue(index, 'start');
@@ -209,7 +210,8 @@ export const Grid = ({ isRunning, setIsRunning, eraseButton }) => {
     const onNodeEnter = (index) => {
         handleNodeEnter(index);
         drawWall(index);
-        setInteractionIndex(index);
+        if (clickEvent || isRunning) setInteractionIndex(index);
+        if (clickEvent && isAnimating) setIsRunning(false);
 
     };
 
