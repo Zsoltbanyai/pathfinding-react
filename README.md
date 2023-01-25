@@ -18,7 +18,7 @@ Click [here](https://zsoltbanyai.github.io/pathfinding-react/).
 * Press the Erase Wall button below the grid to erase all walls drawn. This button also stops the animation if it is pressed while the animation is running.
 
 
-  To run this project on your machine, clone the repository and run `npm install` to install the necessary dependencies. Then run `npm start` to start the development server. The project will be available at `http://localhost:3000/`.
+To run this project on your machine, clone the repository and run `npm install` to install the necessary dependencies. Then run `npm start` to start the development server. The project will be available at `http://localhost:3000/`.
   
 ### Note:
 
