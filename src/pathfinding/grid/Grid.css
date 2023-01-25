@@ -1,6 +1,0 @@
-/* there is some additional inline styling in Grid.jsx */
-.grid {
-    position: relative;
-    display: grid;
-    grid-gap: 0;
-}
