@@ -5,9 +5,11 @@ reposition the start and end nodes, and draw walls to create obstacles for the a
 The algorithm will then find the shortest path between the start and end nodes, 
 with each node visited and each step of the path being animated in real-time.
 
-## Getting Started
+## Demo
 
-To run this project, clone the repository and run `npm install` to install the necessary dependencies. Then run `npm start` to start the development server. The project will be available at `http://localhost:3000/`.
+Click [here](https://zsoltbanyai.github.io/pathfinding-react/).
+
+## Getting Started
 
 * Click on either the start or end node and move your cursor to reposition. Click again to place the node.
 * Press and hold left mouse button to draw a wall, right mouse button to erase.
@@ -15,10 +17,14 @@ To run this project, clone the repository and run `npm install` to install the n
 * Press Pause to clear the grid of visited and path nodes.
 * Press the Erase Wall button below the grid to erase all walls drawn. This button also stops the animation if it is pressed while the animation is running.
 
-Note:
+
+  To run this project on your machine, clone the repository and run `npm install` to install the necessary dependencies. Then run `npm start` to start the development server. The project will be available at `http://localhost:3000/`.
+  
+### Note:
+
 - This app is optimized for mouse input.
 - The animation only plays when you press Play, not when you change the grid.
-- If you press Pause, Erase or hold down the left or right mouse button during the animation, it stops and all visited and path nodes are cleared.
+- If you press Pause, Erase or change the layout in any way during the animation, it stops and all visited and path nodes are cleared.
 
 
 *This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).*
