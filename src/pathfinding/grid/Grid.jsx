@@ -13,21 +13,20 @@ export const Grid = ({ isRunning, setIsRunning, eraseButton }) => {
     initialNodes[startIndex] = 'start';
     initialNodes[endIndex] = 'end';
 
+    const [nodes, setNodes] = useState(initialNodes);
+
     const [interactionIndex, setInteractionIndex] = useState(-1);
     const [activeNodeType, setActiveNodeType] = useState('');
     const [clickEvent, setClickEvent] = useState(false);
     const [isButtonDown, setIsButtonDown] = useState(false);
     const [isErasingWalls, setIsErasingWalls] = useState(false);
     const [isAnimationDone, setIsAnimationDone] = useState(false);
-    const [isAnimating, setIsAnimating] = useState(false);
     const [timeoutIds, setTimeoutIds] = useState([]);
-
-    const [nodes, setNodes] = useState(initialNodes);
 
     const clearNodeValue = (value) => {
         setNodes(prev => prev.map(node => node.replace(value, '')));
 
-    }
+    };
 
     const changeNodeValue = (index, value) => {
         setNodes(prev => {
@@ -36,7 +35,7 @@ export const Grid = ({ isRunning, setIsRunning, eraseButton }) => {
             return newNodes;
         });
 
-    }
+    };
 
     const updateNodeValue = (index, value) => {
         setNodes(prev => {
@@ -45,7 +44,7 @@ export const Grid = ({ isRunning, setIsRunning, eraseButton }) => {
             return newNodes;
         });
 
-    }
+    };
 
     const removeNodeValue = (index, value) => {
         setNodes(prev => {
@@ -54,7 +53,7 @@ export const Grid = ({ isRunning, setIsRunning, eraseButton }) => {
             return newNodes;
         });
 
-    }
+    };
 
     const updateNodeValues = (indexes, value) => {
         setNodes(prev => {
@@ -88,7 +87,6 @@ export const Grid = ({ isRunning, setIsRunning, eraseButton }) => {
     const animate = (pathIndexes, visitedIndexes) => {
         let delay = 0;
         let ids = [];
-        setIsAnimating(true);
         for (let visitedIndex of visitedIndexes) {
             const visitedTimeoutId = setTimeout(() => {
                 const node = document.querySelector(`.node${visitedIndex} div`);
@@ -108,7 +106,6 @@ export const Grid = ({ isRunning, setIsRunning, eraseButton }) => {
         }
 
         const timeoutId = setTimeout(() => {
-            setIsAnimating(false);
             setIsAnimationDone(true);
         }, delay);
         ids.push(timeoutId);
@@ -125,8 +122,6 @@ export const Grid = ({ isRunning, setIsRunning, eraseButton }) => {
         pathNodes.forEach(node => node.classList.remove('path'));
         clearNodeValue('path');
         clearNodeValue('visited');
-        // these are set to false due to the if conditions in the effect hook below
-        setIsAnimating(false);
         // the animation would not start over but render instantly when you press Play again
         setIsAnimationDone(false);
 
@@ -138,25 +133,23 @@ export const Grid = ({ isRunning, setIsRunning, eraseButton }) => {
             return;
         }
 
-        if (!isAnimating) {
-            const result = BFS(
-                findNodeIndex('start'),
-                findNodeIndex('end'),
-                findNodeIndexes('wall'),
-                numOfCols,
-                numOfRows
-            );
-            if (!isAnimationDone) {
-                setTimeoutIds(animate(result[0], result[1]));
-                // setIsAnimationDone(true);
-            } else {
-                clearNodeValue('visited');
-                clearNodeValue('path');
-                updateNodeValues(result[1], 'visited');
-                updateNodeValues(result[0], 'path');
-            }
+        const result = BFS(
+            findNodeIndex('start'),
+            findNodeIndex('end'),
+            findNodeIndexes('wall'),
+            numOfCols,
+            numOfRows
+        );
+        if (!isAnimationDone) {
+            setTimeoutIds(animate(result[0], result[1]));
+        } else {
+            clearNodeValue('visited');
+            clearNodeValue('path');
+            updateNodeValues(result[1], 'visited');
+            updateNodeValues(result[0], 'path');
         }
-    }, [isAnimating, isAnimationDone, isRunning, interactionIndex]);
+
+    }, [isAnimationDone, isRunning, interactionIndex]);
 
     // Erases all wall nodes and stops the animation when the button is pressed
     useEffect(() => {
@@ -166,10 +159,12 @@ export const Grid = ({ isRunning, setIsRunning, eraseButton }) => {
 
     const isStartNode = (index) => {
         return index === findNodeIndex('start');
+
     };
 
     const isEndNode = (index) => {
         return index === findNodeIndex('end');
+
     };
 
     const drawWall = (index) => {
@@ -208,10 +203,10 @@ export const Grid = ({ isRunning, setIsRunning, eraseButton }) => {
     };
 
     const onNodeEnter = (index) => {
+        if (isRunning && (isButtonDown || clickEvent)) setInteractionIndex(index);
+        if (!isAnimationDone && (isButtonDown || clickEvent)) setIsRunning(false);
         handleNodeEnter(index);
         drawWall(index);
-        if (clickEvent || isRunning) setInteractionIndex(index);
-        if (clickEvent && isAnimating) setIsRunning(false);
 
     };
 
@@ -229,8 +224,6 @@ export const Grid = ({ isRunning, setIsRunning, eraseButton }) => {
     const onGridMouseDown = (e) => {
         // for the default 'dragging' functionality to turn off in the browser
         e.preventDefault();
-        // this will trigger the clearAnimation() function
-        if (isAnimating) setIsRunning(false);
         setIsButtonDown(true);
 
     };
