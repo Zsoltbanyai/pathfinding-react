@@ -3,7 +3,10 @@ import {Node} from '../node/Node';
 import {BFS} from '../algorithm/Bfs';
 import {useEffect, useState} from 'react';
 
-export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning, eraseButton }) => {
+export const Grid = ({ isRunning, setIsRunning, eraseButton }) => {
+    const numOfRows = 20;
+    const numOfCols = 40;
+
     const startIndex = Math.floor(numOfCols * numOfRows / 2) - (numOfCols / 2);
     const endIndex = startIndex + numOfCols - 1;
     const initialNodes = Array(numOfCols * numOfRows).fill('');
@@ -53,7 +56,7 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning, eraseButto
 
     }
 
-    function updateNodeValues(indexes, value) {
+    const updateNodeValues = (indexes, value) => {
         setNodes(prev => {
             const updatedNodes = [...prev];
             indexes.forEach(index => {
@@ -62,15 +65,15 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning, eraseButto
             return updatedNodes;
         });
 
-    }
+    };
 
-    function findNodeIndexes(value) {
+    const findNodeIndexes = (value) => {
         return nodes.reduce((acc, node, index) => {
             if (node.includes(value)) acc.push(index);
             return acc;
         }, []);
 
-    }
+    };
 
     const findNodeIndex = (value) => {
         for (let i = 0; i < nodes.length; i++) {
@@ -80,7 +83,7 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning, eraseButto
         }
         return -1;
 
-    }
+    };
 
     const animate = (pathIndexes, visitedIndexes) => {
         let delay = 0;
@@ -89,16 +92,16 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning, eraseButto
         for (let visitedIndex of visitedIndexes) {
             const visitedTimeoutId = setTimeout(() => {
                 const node = document.querySelector(`.node${visitedIndex} div`);
-                node.classList.add('visited');
+                if (node) node.classList.add('visited');
             }, delay);
-            delay += 8;
+            delay += 7;
 
             ids.push(visitedTimeoutId);
         }
         for (let pathIndex of pathIndexes) {
             const pathTimeoutId = setTimeout(() => {
                 const node = document.querySelector(`.node${pathIndex} div`);
-                node.classList.add('path');
+                if (node) node.classList.add('path');
             }, delay);
             delay += 30;
             ids.push(pathTimeoutId);
@@ -152,7 +155,7 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning, eraseButto
                 updateNodeValues(result[0], 'path');
             }
         }
-    }, [isAnimating, isAnimationDone, isRunning, numOfCols, numOfRows, interactionIndex]);
+    }, [isAnimating, isAnimationDone, isRunning, interactionIndex]);
 
     // Erases all wall nodes and stops the animation when the button is pressed
     useEffect(() => {
@@ -162,11 +165,11 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning, eraseButto
 
     const isStartNode = (index) => {
         return index === findNodeIndex('start');
-    }
+    };
 
     const isEndNode = (index) => {
         return index === findNodeIndex('end');
-    }
+    };
 
     const drawWall = (index) => {
         if (isButtonDown && !isStartNode(index) && !isEndNode(index)) {
@@ -179,7 +182,7 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning, eraseButto
             }
         }
 
-    }
+    };
 
     const handleNodeEnter = (index) => {
         if (clickEvent) {
@@ -190,24 +193,25 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning, eraseButto
             }
         }
 
-    }
+    };
 
     const onNodeLeave = (index) => {
         if (clickEvent) {
             if (nodes[index].includes('end') && activeNodeType === 'end') {
                 removeNodeValue(index, 'end');
-            } else if (nodes[index].includes('start') && activeNodeType === 'start') {
+            } else {
                 removeNodeValue(index, 'start');
             }
         }
 
-    }
+    };
 
     const onNodeEnter = (index) => {
         handleNodeEnter(index);
         drawWall(index);
+        setInteractionIndex(index);
 
-    }
+    };
 
     const onNodeClick = (index) => {
         if (nodes[index].includes('end')) {
@@ -218,11 +222,7 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning, eraseButto
             setActiveNodeType('start');
         }
 
-    }
-
-    const onNodeMove = (index) => {
-        if (interactionIndex !== index) setInteractionIndex(index);
-    }
+    };
 
     const onGridMouseDown = (e) => {
         // for the default 'dragging' functionality to turn off in the browser
@@ -231,26 +231,25 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning, eraseButto
         if (isAnimating) setIsRunning(false);
         setIsButtonDown(true);
 
-    }
+    };
 
     const onGridLeftClick = (e) => {
         e.preventDefault();
         setIsErasingWalls(true);
 
-    }
+    };
 
     const onGridMouseUp = () => {
         // 'onMouseUp' is triggered on both the left and right mouse buttons
         setIsButtonDown(false);
         setIsErasingWalls(false);
 
-    }
+    };
 
     const grid = [];
     for (let row = 0; row < numOfRows; row++) {
         for (let col = 0; col < numOfCols; col++) {
             grid.push({
-                id: `${row}_${col}`,
                 index: col + (row * numOfCols)
             });
         }
@@ -273,12 +272,11 @@ export const Grid = ({ numOfRows, numOfCols, isRunning, setIsRunning, eraseButto
         >
             {grid.map((node) => (
                 <Node
-                    key={node.id}
+                    key={node.index}
                     nodeId={node.index}
                     onClick={() => onNodeClick(node.index)}
                     onMouseEnter={() => onNodeEnter(node.index)}
                     onMouseLeave={() => onNodeLeave(node.index)}
-                    onMouseMove={() => onNodeMove(node.index)}
                     state={nodes[node.index]}
                 />
             ))}

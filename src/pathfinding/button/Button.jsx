@@ -1,4 +1,4 @@
-import './Button.css'
+import './Button.css';
 import { useState } from 'react';
 
 export function MyButton({ content, onClick, className }) {
@@ -19,4 +19,5 @@ export function MyButton({ content, onClick, className }) {
             {content}
         </button>
     );
+
 }

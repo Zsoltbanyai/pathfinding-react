@@ -2,7 +2,7 @@ import './Node.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faFlag, faLocationCrosshairs} from '@fortawesome/free-solid-svg-icons';
 
-export const Node = ({ nodeId, onClick, onMouseEnter, onMouseLeave, onMouseMove, state }) => {
+export const Node = ({ nodeId, onClick, onMouseEnter, onMouseLeave, state }) => {
     let className = `node node${nodeId}`;
 
     const isStart = state.includes('start');
@@ -15,7 +15,6 @@ export const Node = ({ nodeId, onClick, onMouseEnter, onMouseLeave, onMouseMove,
             onClick={onClick}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
-            onMouseMove={onMouseMove}
         >
             <div className={state}>
                 { isStart && <FontAwesomeIcon icon={faLocationCrosshairs} className="start-icon" /> }

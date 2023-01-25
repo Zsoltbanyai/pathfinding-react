@@ -26,8 +26,6 @@ function App() {
             />
             <div className='grid-container'>
                 <Grid
-                    numOfRows={20}
-                    numOfCols={40}
                     isRunning={isRunning}
                     setIsRunning={setIsRunning}
                     eraseButton={eraseButton}

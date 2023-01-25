@@ -15,4 +15,5 @@ export const Navbar = ({ startStop, isRunning }) => {
             />
         </div>
     );
+
 }

@@ -10,7 +10,7 @@ with each node visited and each step of the path being animated in real-time.
 To run this project, clone the repository and run `npm install` to install the necessary dependencies. Then run `npm start` to start the development server. The project will be available at `http://localhost:3000/`.
 
 * Click on either the start or end node and move your cursor to reposition. Click again to place the node.
-* Press and hold left mouse button to draw a wall, press right mouse button to erase.
+* Press and hold left mouse button to draw a wall, right mouse button to erase.
 * Press Play to see the animation, then feel free to change the nodes on the grid to see an instant re-render.
 * Press Pause to clear the grid of visited and path nodes.
 * Press the Erase Wall button below the grid to erase all walls drawn. This button also stops the animation if it is pressed while the animation is running.
@@ -18,8 +18,7 @@ To run this project, clone the repository and run `npm install` to install the n
 Note:
 - This app is optimized for mouse input.
 - The animation only plays when you press Play, not when you change the grid.
-- If you press Pause or hold down the left or right mouse button during animation, the animation stops and all visited and path nodes are cleared.
-- You can adjust the size of the grid by changing the numOfRows and numOfCols props passed to the Grid component, in App.js.
+- If you press Pause, Erase or hold down the left or right mouse button during the animation, it stops and all visited and path nodes are cleared.
 
 
 *This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).*
